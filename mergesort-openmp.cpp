@@ -18,16 +18,13 @@
 #define NUMBERS ((DBG == 1) ? NUMBERS_DBG : NUMBERS_BIG)
 #define MAX_NUMBER ((DBG == 1) ? MAX_DBG : MAX_BIG)
 
-/* info */
-void inlinePrintArray(int* A, int from, int to)
-{
+void inlinePrintArray(int *A, int from, int to) {
 	for (int i = from; i < to; i++) {
 		printf("%d, ", A[i]);
 	}
 }
 
-void printArray(int* A, int size)
-{
+void printArray(int* A, int size) {
 	printf("\n");
 	for (int i = 0; i < size; i++) {
 		printf("%d, ", A[i]);
@@ -40,20 +37,22 @@ void printTime(time_t t1, time_t t2, const char* solutionType) {
 }
 
 /* debug */
-void debugPrintMergeSort(int* arr, int left_start, int right_start, char c) {
-	if (DBG) {
-		printf("\n%c <%d, %d> ", c, left_start, right_start);
-		inlinePrintArray(arr, left_start, right_start);
-		fflush(stdout);
-	}
-}
+// TODO: remove
+//void debugPrintMergeSort(int* arr, int left_start, int right_start, char c) {
+//	if (DBG) {
+//		printf("\n%c <%d, %d> ", c, left_start, right_start);
+//		inlinePrintArray(arr, left_start, right_start);
+//		fflush(stdout);
+//	}
+//}
 
-void debugPrintParralelMergeSort(int left_start, int right_start, int num, int threads) {
-	if (DBG) {
-		printf("\nthread=%d, num_threads=%d <%d, %d>", num, threads, left_start, right_start);
-		fflush(stdout);
-	}
-}
+// TODO: Remove
+//void debugPrintParralelMergeSort(int left_start, int right_start, int num, int threads) {
+//	if (DBG) {
+//		printf("\nthread=%d, num_threads=%d <%d, %d>", num, threads, left_start, right_start);
+//		fflush(stdout);
+//	}
+//}
 
 void checkIfCorrectlySorted(int* arr) {
 	bool correct = true;
@@ -159,26 +158,28 @@ void mergeSort(int* arr, int left_start, int right_start, int* tmp) {
 }
 
 void mergeSortParallel(int* arr, int left_start, int right_start, int* tmp) {
-	if (left_start < right_start)
-	{
+	if (left_start < right_start) {
 		if ((right_start - left_start) > (DBG ? 1 : 10000)) {
 			int num = omp_get_thread_num();
 			int threads = omp_get_num_threads();
 
 			int m = left_start + (right_start - left_start) / 2;
-#pragma omp task		
+
+            #pragma omp task
 			{
-				debugPrintParralelMergeSort(left_start, m, num, threads);
+				debugPrintParralelMergeSort(left_start, m, num, threads); // TODO: remove
 				mergeSortParallel(arr, left_start, m, tmp);
 			}
 
-#pragma omp task
+            #pragma omp task
 			{
-				debugPrintParralelMergeSort(m + 1, right_start, num, threads);
+				debugPrintParralelMergeSort(m + 1, right_start, num, threads); // TODO: remove
 				mergeSortParallel(arr, m + 1, right_start, tmp);
 			}
-#pragma omp taskwait
-			merge(arr, left_start, m, right_start, tmp);
+
+            #pragma omp taskwait
+
+            merge(arr, left_start, m, right_start, tmp);
 		}
 		else {
 			mergeSort(arr, left_start, right_start, tmp);
@@ -201,7 +202,7 @@ int main() {
 		memcpy(numbersPar, numbersSeq, numbersSize);
 
 		time(&time1);
-		mergeSort(numbersSeq, 0, NUMBERS - 1, tmp);
+		mergeSort(numbersSeq, 0, NUMBERS - 1, tmp); // Sequential
 		time(&time2);
 		printTime(time1, time2, "sequential");
 
@@ -213,11 +214,11 @@ int main() {
 	}
 	
 	time(&time1);
-#pragma omp parallel 
-#pragma omp single
-		{
-			mergeSortParallel(numbersPar, 0, NUMBERS - 1, tmp);
-		}	
+    #pragma omp parallel
+    #pragma omp single
+    {
+        mergeSortParallel(numbersPar, 0, NUMBERS - 1, tmp);
+    }
 	time(&time2);
 	printTime(time1, time2, "parallel");
 	
