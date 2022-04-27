@@ -8,38 +8,6 @@
 #include <device_launch_parameters.h>
 #include "util.h"
 
-bool checkForError(const cudaError_t cudaStatus, const char text[], int* dev_input) {
-    // TODO: change
-	if (cudaStatus != cudaSuccess) {
-		fprintf(stderr, "\n\n%s \nError code: %d \nStatus: %s \n\n", text, cudaStatus, cudaGetErrorString(cudaStatus));
-		if (dev_input != NULL) {
-			cudaFree(dev_input);
-		}
-		return true;
-	}
-	return false;
-}
-
-bool checkForError(const cudaError_t cudaStatus, const char text[]) {
-    // TODO: change
-	if (cudaStatus != cudaSuccess) {
-		fprintf(stderr, "\n\n%s \nError code: %d \nStatus: %s \n\n", text, cudaStatus, cudaGetErrorString(cudaStatus));
-		return true;
-	}
-	return false;
-}
-
-void checkIfCorrectlySorted(int* arr, int arrSize) {
-    // TODO: remove
-	for (int i = 0; i < arrSize - 1; i++) {
-		if (arr[i] > arr[i + 1]) {
-			printf("\n\n-----------ERROR!-----------%d\n\n ", i);
-			return;
-		}
-	}
-	printf("\n----------- OK ------------");
-}
-
 __host__
 __device__
 void merge(int *arr, int l, int r, int m, int tmpIndexStart) {
@@ -66,19 +34,6 @@ void merge(int *arr, int l, int r, int m, int tmpIndexStart) {
     // Fill in the remaining elements
 	while (i < lSize) arr[k++] = left[i++];
 	while (j < rSize) arr[k++] = right[j++];
-}
-
-__global__
-void mergeKernel(int* arr, int vectorLengthPerThread, int vectorLength, int tmpIndexStart) {
-    // TODO: Remove
-	int threadId = blockDim.x * blockIdx.x + threadIdx.x;
-	int l = threadId * vectorLengthPerThread;
-	int r = l + vectorLengthPerThread - 1;
-	int m = l + (r - l) / 2;
-
-	if (l < vectorLength) {
-		merge(arr, l, r, m, tmpIndexStart);
-	}
 }
 
 __host__
@@ -115,18 +70,10 @@ int main(int argc, char **argv) {
 	int *arr = (int*)malloc(arrSizeBytes);
     initializeRandomArray(arr, arrSize);
 
-    cudaError_t cudaResult;
-
     // Copy array to device
     int *arr_d = NULL;
-	cudaResult = cudaMalloc((void**)&arr_d, arrSizeBytes);
-	if (checkForError(cudaResult, "cudaMalloc arr failed!", arr_d)) {
-		return cudaResult;
-	}
-	cudaResult = cudaMemcpy(arr_d, arr, arrSizeBytes, cudaMemcpyHostToDevice);
-	if (checkForError(cudaResult, "Copying arr to host failed!", arr_d)) {
-		return cudaResult;
-	}
+	cudaMalloc((void**)&arr_d, arrSizeBytes);
+	cudaMemcpy(arr_d, arr, arrSizeBytes, cudaMemcpyHostToDevice);
 
 	while (vectorLengthPerThread <= arrSizePerBlock) {
 		mergeSortKernel<<<numBlocks, threadsPerBlock>>>(arr_d, vectorLengthPerThread, vectorLengthPerThread / initialVectorLengthPerThread, arrSize, tmpIndexStart);
@@ -135,8 +82,7 @@ int main(int argc, char **argv) {
     }
 
     // Copy result to host
-    cudaResult = cudaMemcpy(arr, arr_d, arrSizeBytes, cudaMemcpyDeviceToHost);
-    if (checkForError(cudaResult, "Copying arr to host failed.")) return cudaResult;
+    cudaMemcpy(arr, arr_d, arrSizeBytes, cudaMemcpyDeviceToHost);
 
     int l = vectorLengthPerThread/2, r = arrSize - 1;
 	mergeSort(arr, l, r, 1, arrSize, tmpIndexStart);
@@ -144,9 +90,6 @@ int main(int argc, char **argv) {
 
     // Free device memory
     cudaFree(arr_d);
-	checkIfCorrectlySorted(arr, arrSize); // TODO: remove
 
 	return 0;
 }
-
-// TODO: remove tmpIndexStart
