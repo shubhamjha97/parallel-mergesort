@@ -9,7 +9,7 @@
 #define SHOWTIME 1
 
 #define NUMBERS_BIG 100000000 //2000000
-#define NUMBERS_DBG 10
+#define NUMBERS_DBG 1000000
 
 #define MAX_BIG 100000 //1000000
 #define MAX_DBG 50
@@ -59,6 +59,7 @@ void checkIfCorrectlySorted(int* arr) {
     for (int i = 0; i < NUMBERS - 1; i++) {
         if (arr[i] > arr[i + 1]) {
             printf("\n\n-----------ERROR!-----------\n\n");
+            printf("idx: %d, %d, %d",i, arr[i], arr[i+1]);
             correct = false;
             break;
         }
@@ -76,9 +77,9 @@ void fillArrayWithNumbers(int* numbers) {
         numbers[i] = rand() % MAX_NUMBER;
     }
 
-    if (DBG) {
-        printArray(numbers, NUMBERS);
-    }
+//    if (DBG) {
+//        //printArray(numbers, NUMBERS);
+//    }
 }
 
 /* Function to merge the two haves arr[l..m] and arr[m+1..r] of array arr[] */
@@ -142,18 +143,10 @@ void merge(int arr[], int left_start, int mid, int right_start, int* tmp) {
 void mergeSort(int* arr, int left_start, int right_start, int* tmp) {
     if (left_start < right_start)
     {
-        // Same as (l+r)/2, but avoids overflow for large l and h
         int m = left_start + (right_start - left_start) / 2;
-
-        // Sort first and second halves
-//        debugPrintMergeSort(arr, left_start, m, 'l');
         mergeSort(arr, left_start, m, tmp);
-
-//        debugPrintMergeSort(arr, m + 1, right_start, 'r');
         mergeSort(arr, m + 1, right_start, tmp);
-
         merge(arr, left_start, m, right_start, tmp);
-//        debugPrintMergeSort(arr, left_start, right_start, 'm');
     }
 }
 
@@ -165,20 +158,17 @@ void mergeSortParallel(int* arr, int left_start, int right_start, int* tmp) {
 
             int m = left_start + (right_start - left_start) / 2;
 
-#pragma omp task
+            #pragma omp task
             {
-//                debugPrintParralelMergeSort(left_start, m, num, threads); // TODO: remove
                 mergeSortParallel(arr, left_start, m, tmp);
             }
 
-#pragma omp task
+            #pragma omp task
             {
-//                debugPrintParralelMergeSort(m + 1, right_start, num, threads); // TODO: remove
                 mergeSortParallel(arr, m + 1, right_start, tmp);
             }
 
-#pragma omp taskwait
-
+            #pragma omp taskwait
             merge(arr, left_start, m, right_start, tmp);
         }
         else {
@@ -199,30 +189,34 @@ int main() {
 
     #pragma omp target data map(tofrom:tmp[0:NUMBERS]) map(tofrom:numbersPar[0:NUMBERS])
     {
-
         // TODO: Remove
-        int num_devices = omp_get_num_devices();
-        printf("Number of available devices %d\n", num_devices);
+//        int num_devices = omp_get_num_devices();
+//        printf("Number of available devices %d\n", num_devices);
+        int vectorLengthPerThread = 2;
 
-        #pragma omp target
-        {
-            if (omp_is_initial_device()) { // TODO: remove
-                printf("Running on host\n");
-            } else {
-                printf("Running on device\n");
-            }
-
-            #pragma omp parallel
+        while(vectorLengthPerThread < NUMBERS) {
+            #pragma omp target
             {
-                mergeSortParallel(numbersPar, 0, NUMBERS - 1, tmp);
+                #pragma omp parallel for
+                for(int i=0; i<NUMBERS; i+= vectorLengthPerThread){
+                    int threadNum = omp_get_thread_num();
+                    int l = threadNum * vectorLengthPerThread;
+                    int r = std::min(l + vectorLengthPerThread - 1, NUMBERS);
+                    mergeSort(numbersPar, l, r, tmp);
+                }
             }
+            vectorLengthPerThread *= 2;
+        }
+
+        # pragma omp target update from(numbersPar[0:NUMBERS])
+        # pragma omp single
+        {
+            int l = vectorLengthPerThread / 2, r = NUMBERS;
+            mergeSort(numbersPar, l, r, tmp);
+            merge(numbersPar, 0, vectorLengthPerThread / 2 - 1, NUMBERS, tmp);
+//            checkIfCorrectlySorted(numbersPar);
         }
     }
-
-    inlinePrintArray(numbersPar, 0, NUMBERS);
-    printf("\n");
-    checkIfCorrectlySorted(numbersPar);
-    printf("\n");
 
     return 0;
 }
