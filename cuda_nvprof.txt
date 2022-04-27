@@ -1,0 +1,114 @@
+==140319== NVPROF is profiling process 140319, command: ./mergesort_cuda 10
+==140319== Profiling application: ./mergesort_cuda 10
+==140319== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   82.87%  18.112us         3  6.0370us  5.4400us  6.4960us  mergeSortKernel(int*, int, int, int, int)
+                    9.96%  2.1760us         1  2.1760us  2.1760us  2.1760us  [CUDA memcpy DtoH]
+                    7.17%  1.5670us         1  1.5670us  1.5670us  1.5670us  [CUDA memcpy HtoD]
+      API calls:   99.47%  226.00ms         1  226.00ms  226.00ms  226.00ms  cudaMalloc
+                    0.28%  644.10us         1  644.10us  644.10us  644.10us  cuDeviceTotalMem
+                    0.11%  260.46us       101  2.5780us     116ns  113.51us  cuDeviceGetAttribute
+                    0.07%  150.48us         1  150.48us  150.48us  150.48us  cudaFree
+                    0.02%  43.725us         1  43.725us  43.725us  43.725us  cuDeviceGetName
+                    0.02%  41.028us         2  20.514us  20.038us  20.990us  cudaMemcpy
+                    0.01%  30.708us         3  10.236us  4.3060us  20.619us  cudaLaunchKernel
+                    0.01%  28.215us         3  9.4050us  8.6840us  9.8590us  cudaDeviceSynchronize
+                    0.00%  5.3280us         1  5.3280us  5.3280us  5.3280us  cuDeviceGetPCIBusId
+                    0.00%  2.5090us         3     836ns     167ns  1.2080us  cuDeviceGetCount
+                    0.00%  1.0210us         2     510ns     373ns     648ns  cuDeviceGet
+                    0.00%     253ns         1     253ns     253ns     253ns  cuDeviceGetUuid
+==140629== NVPROF is profiling process 140629, command: ./mergesort_cuda 100
+==140629== Profiling application: ./mergesort_cuda 100
+==140629== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   93.15%  46.560us         6  7.7600us  5.5040us  12.192us  mergeSortKernel(int*, int, int, int, int)
+                    3.71%  1.8560us         1  1.8560us  1.8560us  1.8560us  [CUDA memcpy DtoH]
+                    3.14%  1.5680us         1  1.5680us  1.5680us  1.5680us  [CUDA memcpy HtoD]
+      API calls:   99.43%  218.39ms         1  218.39ms  218.39ms  218.39ms  cudaMalloc
+                    0.29%  642.58us         1  642.58us  642.58us  642.58us  cuDeviceTotalMem
+                    0.12%  263.92us       101  2.6130us     115ns  114.83us  cuDeviceGetAttribute
+                    0.06%  139.22us         1  139.22us  139.22us  139.22us  cudaFree
+                    0.03%  61.700us         6  10.283us  7.9800us  15.149us  cudaDeviceSynchronize
+                    0.02%  48.387us         6  8.0640us  3.6900us  26.587us  cudaLaunchKernel
+                    0.02%  46.958us         1  46.958us  46.958us  46.958us  cuDeviceGetName
+                    0.02%  37.284us         2  18.642us  17.848us  19.436us  cudaMemcpy
+                    0.00%  4.9660us         1  4.9660us  4.9660us  4.9660us  cuDeviceGetPCIBusId
+                    0.00%  1.2850us         3     428ns     181ns     832ns  cuDeviceGetCount
+                    0.00%     707ns         2     353ns     129ns     578ns  cuDeviceGet
+                    0.00%     272ns         1     272ns     272ns     272ns  cuDeviceGetUuid
+==140642== NVPROF is profiling process 140642, command: ./mergesort_cuda 1000
+==140642== Profiling application: ./mergesort_cuda 1000
+==140642== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   96.43%  116.61us         8  14.575us  6.4000us  37.247us  mergeSortKernel(int*, int, int, int, int)
+                    1.88%  2.2720us         1  2.2720us  2.2720us  2.2720us  [CUDA memcpy DtoH]
+                    1.69%  2.0480us         1  2.0480us  2.0480us  2.0480us  [CUDA memcpy HtoD]
+      API calls:   99.35%  210.33ms         1  210.33ms  210.33ms  210.33ms  cudaMalloc
+                    0.31%  648.43us         1  648.43us  648.43us  648.43us  cuDeviceTotalMem
+                    0.13%  285.43us       101  2.8260us     117ns  126.18us  cuDeviceGetAttribute
+                    0.07%  153.23us         1  153.23us  153.23us  153.23us  cudaFree
+                    0.07%  141.89us         8  17.736us  9.1320us  41.082us  cudaDeviceSynchronize
+                    0.02%  50.397us         8  6.2990us  3.4800us  21.306us  cudaLaunchKernel
+                    0.02%  44.516us         2  22.258us  20.551us  23.965us  cudaMemcpy
+                    0.02%  40.859us         1  40.859us  40.859us  40.859us  cuDeviceGetName
+                    0.00%  4.9490us         1  4.9490us  4.9490us  4.9490us  cuDeviceGetPCIBusId
+                    0.00%  2.1580us         3     719ns     197ns  1.2110us  cuDeviceGetCount
+                    0.00%     999ns         2     499ns     388ns     611ns  cuDeviceGet
+                    0.00%     239ns         1     239ns     239ns     239ns  cuDeviceGetUuid
+==140688== NVPROF is profiling process 140688, command: ./mergesort_cuda 10000
+==140688== Profiling application: ./mergesort_cuda 10000
+==140688== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   93.66%  251.52us         8  31.439us  8.2240us  57.151us  mergeSortKernel(int*, int, int, int, int)
+                    3.65%  9.7920us         1  9.7920us  9.7920us  9.7920us  [CUDA memcpy HtoD]
+                    2.69%  7.2320us         1  7.2320us  7.2320us  7.2320us  [CUDA memcpy DtoH]
+      API calls:   99.23%  199.17ms         1  199.17ms  199.17ms  199.17ms  cudaMalloc
+                    0.32%  649.19us         1  649.19us  649.19us  649.19us  cuDeviceTotalMem
+                    0.14%  278.55us         8  34.818us  10.081us  65.754us  cudaDeviceSynchronize
+                    0.13%  265.45us       101  2.6280us     115ns  122.71us  cuDeviceGetAttribute
+                    0.07%  144.86us         1  144.86us  144.86us  144.86us  cudaFree
+                    0.05%  103.33us         2  51.666us  46.873us  56.460us  cudaMemcpy
+                    0.03%  54.107us         1  54.107us  54.107us  54.107us  cuDeviceGetName
+                    0.02%  49.307us         8  6.1630us  3.4680us  20.623us  cudaLaunchKernel
+                    0.00%  5.2150us         1  5.2150us  5.2150us  5.2150us  cuDeviceGetPCIBusId
+                    0.00%  2.6170us         3     872ns     165ns  1.6080us  cuDeviceGetCount
+                    0.00%     993ns         2     496ns     422ns     571ns  cuDeviceGet
+                    0.00%     260ns         1     260ns     260ns     260ns  cuDeviceGetUuid
+==141028== NVPROF is profiling process 141028, command: ./mergesort_cuda 100000
+==141028== Profiling application: ./mergesort_cuda 100000
+==141028== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   90.26%  1.2051ms         8  150.64us  19.776us  478.36us  mergeSortKernel(int*, int, int, int, int)
+                    5.11%  68.191us         1  68.191us  68.191us  68.191us  [CUDA memcpy HtoD]
+                    4.63%  61.855us         1  61.855us  61.855us  61.855us  [CUDA memcpy DtoH]
+      API calls:   98.62%  221.51ms         1  221.51ms  221.51ms  221.51ms  cudaMalloc
+                    0.56%  1.2656ms         8  158.20us  22.125us  481.31us  cudaDeviceSynchronize
+                    0.29%  646.35us         1  646.35us  646.35us  646.35us  cuDeviceTotalMem
+                    0.28%  626.47us         2  313.23us  223.27us  403.20us  cudaMemcpy
+                    0.11%  255.06us       101  2.5250us     114ns  113.88us  cuDeviceGetAttribute
+                    0.08%  179.73us         1  179.73us  179.73us  179.73us  cudaFree
+                    0.03%  70.184us         8  8.7730us  3.5950us  30.482us  cudaLaunchKernel
+                    0.02%  41.710us         1  41.710us  41.710us  41.710us  cuDeviceGetName
+                    0.00%  4.4230us         1  4.4230us  4.4230us  4.4230us  cuDeviceGetPCIBusId
+                    0.00%  1.3060us         3     435ns     175ns     871ns  cuDeviceGetCount
+                    0.00%     822ns         2     411ns     127ns     695ns  cuDeviceGet
+                    0.00%     225ns         1     225ns     225ns     225ns  cuDeviceGetUuid
+==141045== NVPROF is profiling process 141045, command: ./mergesort_cuda 1000000
+==141045== Profiling application: ./mergesort_cuda 1000000
+==141045== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   38.43%  2.6694ms         8  333.67us  164.38us  797.72us  mergeSortKernel(int*, int, int, int, int)
+                   35.16%  2.4420ms         1  2.4420ms  2.4420ms  2.4420ms  [CUDA memcpy DtoH]
+                   26.41%  1.8341ms         1  1.8341ms  1.8341ms  1.8341ms  [CUDA memcpy HtoD]
+      API calls:   95.64%  208.45ms         1  208.45ms  208.45ms  208.45ms  cudaMalloc
+                    2.55%  5.5665ms         2  2.7833ms  2.0215ms  3.5450ms  cudaMemcpy
+                    1.25%  2.7190ms         8  339.87us  167.20us  801.20us  cudaDeviceSynchronize
+                    0.30%  648.58us         1  648.58us  648.58us  648.58us  cuDeviceTotalMem
+                    0.12%  261.93us       101  2.5930us     120ns  117.98us  cuDeviceGetAttribute
+                    0.09%  185.81us         1  185.81us  185.81us  185.81us  cudaFree
+                    0.03%  60.265us         8  7.5330us  3.5350us  29.739us  cudaLaunchKernel
+                    0.02%  47.639us         1  47.639us  47.639us  47.639us  cuDeviceGetName
+                    0.00%  4.8910us         1  4.8910us  4.8910us  4.8910us  cuDeviceGetPCIBusId
+                    0.00%  1.3170us         3     439ns     149ns     851ns  cuDeviceGetCount
+                    0.00%     779ns         2     389ns     125ns     654ns  cuDeviceGet
+                    0.00%     219ns         1     219ns     219ns     219ns  cuDeviceGetUuid
