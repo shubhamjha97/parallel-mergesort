@@ -7,11 +7,11 @@
 void checkCorrectness(int *arr, int arrSize) {
     for (int i = 0; i < arrSize - 1; i++) {
         if (arr[i] > arr[i + 1]) {
-            printf("\n\n-----------ERROR!-----------\n\n");
+            printf("\nError\n");
             return;
         }
     }
-    printf("\n----------- OK ------------");
+    printf("\nOk\n");
 }
 
 void parseArgs(int argc, char **argv, int& arrSize) {
