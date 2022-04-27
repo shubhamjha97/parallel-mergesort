@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
     // initialize array
     int arraySizeBytes = arrSize * sizeof(int);
     int *arr = (int*) malloc(arraySizeBytes);
-    fillArrayWithNumbers(arr, arrSize);
+    initializeRandomArray(arr, arrSize);
 
     // sort
     mergeSort(arr, 0, arrSize - 1);

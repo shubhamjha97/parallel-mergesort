@@ -4,6 +4,16 @@
 #include <ctime>
 #include <iostream>
 
+void checkCorrectness(int *arr, int arrSize) {
+    for (int i = 0; i < arrSize - 1; i++) {
+        if (arr[i] > arr[i + 1]) {
+            printf("\n\n-----------ERROR!-----------\n\n");
+            return;
+        }
+    }
+    printf("\n----------- OK ------------");
+}
+
 void parseArgs(int argc, char **argv, int& arrSize) {
     arrSize = 1000; // default size
     if(argc > 1) {
@@ -11,11 +21,10 @@ void parseArgs(int argc, char **argv, int& arrSize) {
     }
 }
 
-void fillArrayWithNumbers(int *arr, int arrSize) {
-    // TODO: Rename to initialize Ranodm array
+void initializeRandomArray(int *arr, int arrSize) {
     (time(NULL));
     for (int i = 0; i < arrSize; i++) {
-        arr[i] = rand() % 100000; // TODO: INT_MAX;
+        arr[i] = rand() % 1000000;
     }
 }
 

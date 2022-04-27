@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
 
     // Initialize array
 	int *arr = (int*)malloc(arrSizeBytes);
-	fillArrayWithNumbers(arr, arrSize);
+    initializeRandomArray(arr, arrSize);
 
     cudaError_t cudaResult;
 
