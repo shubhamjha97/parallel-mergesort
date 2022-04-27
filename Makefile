@@ -8,4 +8,4 @@ cuda:
 	nvcc mergesort-cuda.cu util.cpp  -o mergesort_cuda
 
 clean:
-	rm -rf mergesort_cuda, mergesort_omp, mergesort_seq
+	rm -rf mergesort_cuda mergesort_omp mergesort_seq
