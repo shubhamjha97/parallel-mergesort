@@ -49,6 +49,6 @@ int main(int argc, char **argv) {
     // sort
     mergeSort(arr, 0, arrSize - 1);
 
-    printArray(arr, arrSize);
+//    printArray(arr, arrSize);
     return 0;
 }
